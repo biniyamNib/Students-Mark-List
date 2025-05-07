@@ -1,4 +1,4 @@
-const studentData = {
+export const studentData = {
   KG1: {
     1: [
       {

@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Table from "./Table";
-import { getSubjects } from "../utils/SubjectUtils";
+import Subjects from "./Subjects";
 import studentData from "../data/StudentData";
 
 const MarkList = () => {
   const [isSummaryChecked, setIsSummaryChecked] = useState(true);
   const [isDetailChecked, setIsDetailChecked] = useState(false);
-  const [batch, setBatch] = useState("KG1");
-  const [term, setTerm] = useState("1");
-  const [stream, setStream] = useState("Natural");
-  const [displayedStudents, setDisplayedStudents] = useState(studentData.KG1[1]);
-
-  const subjects = getSubjects(batch, stream);
+  const [batch, setBatch] = useState("");
+  const [term, setTerm] = useState("");
+  const [stream, setStream] = useState("");
+  const [displayedStudents, setDisplayedStudents] = useState([]);
+  
+  const subjects = Subjects(batch, stream);
 
   useEffect(() => {
-    if (isSummaryChecked) {
-      setDisplayedStudents(studentData[batch]?.[term] || []);
+    if (isSummaryChecked && batch && term) {
+      if (["9", "10", "11", "12"].includes(batch) && !stream) {
+        setDisplayedStudents([]); // Require stream for grades 9-12
+      } else {
+        setDisplayedStudents(studentData[batch]?.[term] || []);
+      }
+    } else {
+      setDisplayedStudents([]);
     }
-  }, [batch, term, isSummaryChecked]);
+  }, [batch, term, stream, isSummaryChecked]);
 
   const handleSummaryChange = (e) => {
     const isChecked = e.target.checked;
