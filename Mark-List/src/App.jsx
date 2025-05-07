@@ -1,9 +1,10 @@
 import React from 'react'
+import MarkList from './components/MarkList'
 
 const App = () => {
   return (
     <div>
-      <h1>App</h1>
+      <MarkList />
     </div>
   )
 }
